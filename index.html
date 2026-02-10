@@ -7,93 +7,125 @@
   <style>
     :root{
       --ink:#111827; --muted:#4b5563; --line:#e5e7eb; --bg:#ffffff; --soft:#f9fafb;
+      --card:#ffffff; --shadow:0 1px 0 rgba(17,24,39,.04);
     }
     *{box-sizing:border-box}
     body{
       margin:0;
       font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans TC","PingFang TC","Heiti TC",Arial,sans-serif;
-      color:var(--ink);
-      background:var(--bg);
-      line-height:1.6;
+      color:var(--ink); background:var(--bg); line-height:1.65;
     }
 
-    /* layout */
     .wrap{max-width:1020px;margin:28px auto;padding:0 18px 28px}
-    @media (max-width: 760px){
-      .wrap{margin:14px auto;padding:0 12px 18px}
-    }
+    @media (max-width: 760px){ .wrap{margin:14px auto;padding:0 12px 18px} }
 
     header{
-      border:1px solid var(--line);
-      border-radius:14px;
+      border:1px solid var(--line); border-radius:14px;
       padding:16px 16px 14px;
       background:linear-gradient(180deg, var(--soft), #fff);
     }
     h1{margin:0 0 6px;font-size:20px;letter-spacing:.2px}
-    @media (max-width: 760px){
-      h1{font-size:18px}
-    }
+    @media (max-width: 760px){ h1{font-size:18px} }
 
     .meta{display:flex;gap:10px;flex-wrap:wrap;color:var(--muted);font-size:12.5px}
     .meta span{padding:4px 10px;border:1px solid var(--line);border-radius:999px;background:#fff}
 
     .section{
-      margin-top:14px;
-      border:1px solid var(--line);
-      border-radius:14px;
-      padding:14px 14px 10px;
-      background:#fff;
+      margin-top:14px;border:1px solid var(--line);border-radius:14px;
+      padding:14px 14px 10px;background:#fff;
     }
     .section h2{margin:0 0 10px;font-size:14.5px}
 
+    /* KPI cards */
     .kpis{display:grid;grid-template-columns:1fr;gap:10px}
     @media (min-width: 760px){ .kpis{grid-template-columns:1fr 1fr 1fr;} }
-    .kpi{border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:#fff}
+    .kpi{
+      border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:#fff;
+      box-shadow:var(--shadow);
+    }
     .kpi .label{color:var(--muted);font-size:12px;margin-bottom:4px}
     .kpi .value{font-size:16px;font-weight:800}
     .kpi .sub{color:var(--muted);font-size:12px;margin-top:4px}
 
-    /* tables: mobile-safe */
-    .table-wrap{
-      width:100%;
-      overflow-x:auto;
-      -webkit-overflow-scrolling:touch;
-      border-radius:12px;
-    }
-    table{
-      width:100%;
-      border-collapse:collapse;
-      margin-top:8px;
-      background:#fff;
-      min-width: 720px; /* prevents ugly squeeze on phone; enables horizontal scroll */
-    }
-    @media (max-width: 760px){
-      table{ min-width: 680px; }
-    }
-    th,td{
-      border-bottom:1px solid var(--line);
-      padding:9px 8px;
-      vertical-align:top;
-      font-size:12.5px;
-      white-space:normal;
-      word-break:break-word;
-      overflow-wrap:anywhere;
-    }
-    th{
-      font-size:12px;
-      color:#374151;
-      background:var(--soft);
-      text-align:left;
-    }
+    /* Desktop tables (keep) */
+    table{width:100%;border-collapse:collapse;margin-top:8px;background:#fff}
+    th,td{border-bottom:1px solid var(--line);padding:9px 8px;vertical-align:top}
+    th{font-size:12px;color:#374151;background:var(--soft);text-align:left}
+    td{font-size:12.5px}
     .right{text-align:right;white-space:nowrap}
 
     .twoCol{display:grid;grid-template-columns:1fr;gap:12px}
     @media (min-width: 900px){ .twoCol{grid-template-columns:1fr 1fr;} }
 
+    /* ------------------------------
+       Mobile: convert tables -> cards
+       ------------------------------ */
+    @media (max-width: 760px){
+      /* hide table header */
+      table thead{display:none}
+      /* make rows stack */
+      table, tbody, tr, td{display:block; width:100%}
+      table{margin-top:10px}
+      tr{
+        border:1px solid var(--line);
+        border-radius:12px;
+        background:var(--card);
+        padding:10px 10px 6px;
+        margin:10px 0;
+        box-shadow:var(--shadow);
+      }
+      td{
+        border-bottom:none;
+        padding:6px 0;
+        font-size:13px;
+        line-height:1.6;
+      }
+      /* label/value layout per cell */
+      td{
+        display:grid;
+        grid-template-columns:110px 1fr;
+        gap:10px;
+        align-items:start;
+      }
+      /* default labels by column position */
+      tr td:nth-child(1)::before{content:"項目"; color:var(--muted); font-size:12px}
+      tr td:nth-child(2)::before{content:"數值"; color:var(--muted); font-size:12px}
+      tr td:nth-child(3)::before{content:"說明"; color:var(--muted); font-size:12px}
+      tr td:nth-child(4)::before{content:"補充"; color:var(--muted); font-size:12px}
+
+      /* fine-tune per table using a class on the section */
+      .t-6m tr td:nth-child(1)::before{content:"合計項目"}
+      .t-6m tr td:nth-child(2)::before{content:"金額（6個月）"}
+      .t-6m tr td:nth-child(3)::before{content:"計算方式"}
+
+      .t-month tr td:nth-child(1)::before{content:"區塊"}
+      .t-month tr td:nth-child(2)::before{content:"編制"}
+      .t-month tr td:nth-child(3)::before{content:"每月成本"}
+      .t-month tr td:nth-child(4)::before{content:"說明"}
+
+      .t-kitchen tr td:nth-child(1)::before{content:"職位"}
+      .t-kitchen tr td:nth-child(2)::before{content:"月薪（台中）"}
+      .t-kitchen tr td:nth-child(3)::before{content:"重點職責"}
+
+      .t-front tr td:nth-child(1)::before{content:"職位"}
+      .t-front tr td:nth-child(2)::before{content:"薪資範圍"}
+      .t-front tr td:nth-child(3)::before{content:"重點職責"}
+
+      .t-mkt tr td:nth-child(1)::before{content:"項目"}
+      .t-mkt tr td:nth-child(2)::before{content:"金額"}
+      .t-mkt tr td:nth-child(3)::before{content:"範圍摘要"}
+
+      /* right-align numeric cell content while keeping label left */
+      td.right{white-space:normal; text-align:left}
+      td.right > *{justify-self:start}
+
+      /* make bold numbers stand out */
+      b{font-weight:800}
+    }
+
     @media print{
       .wrap{margin:0;max-width:none}
       header,.section{break-inside:avoid}
-      table{min-width:auto}
     }
   </style>
 </head>
@@ -128,7 +160,7 @@
         </div>
       </div>
 
-      <div class="table-wrap">
+      <div class="t-6m">
         <table>
           <thead>
             <tr>
@@ -151,7 +183,7 @@
     <section class="section">
       <h2>二、人力編制與成本彙總（每月）</h2>
 
-      <div class="table-wrap">
+      <div class="t-month">
         <table>
           <thead>
             <tr>
@@ -195,7 +227,7 @@
       <section class="section">
         <h2>三、內場薪資帶（職位與月薪區間）</h2>
 
-        <div class="table-wrap">
+        <div class="t-kitchen">
           <table>
             <thead>
               <tr>
@@ -220,7 +252,7 @@
       <section class="section">
         <h2>四、外場薪資帶（職位與薪資區間）</h2>
 
-        <div class="table-wrap">
+        <div class="t-front">
           <table>
             <thead>
               <tr>
@@ -244,7 +276,7 @@
     <section class="section">
       <h2>五、行銷預算（6 個月）</h2>
 
-      <div class="table-wrap">
+      <div class="t-mkt">
         <table>
           <thead>
             <tr>

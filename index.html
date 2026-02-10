@@ -12,34 +12,92 @@
     body{
       margin:0;
       font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans TC","PingFang TC","Heiti TC",Arial,sans-serif;
-      color:var(--ink); background:var(--bg); line-height:1.55;
+      color:var(--ink);
+      background:var(--bg);
+      line-height:1.6;
     }
+
+    /* layout */
     .wrap{max-width:1020px;margin:28px auto;padding:0 18px 28px}
+    @media (max-width: 760px){
+      .wrap{margin:14px auto;padding:0 12px 18px}
+    }
+
     header{
-      border:1px solid var(--line); border-radius:14px;
-      padding:16px 16px 14px; background:linear-gradient(180deg, var(--soft), #fff);
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:16px 16px 14px;
+      background:linear-gradient(180deg, var(--soft), #fff);
     }
     h1{margin:0 0 6px;font-size:20px;letter-spacing:.2px}
-    .meta{display:flex;gap:14px;flex-wrap:wrap;color:var(--muted);font-size:12.5px}
+    @media (max-width: 760px){
+      h1{font-size:18px}
+    }
+
+    .meta{display:flex;gap:10px;flex-wrap:wrap;color:var(--muted);font-size:12.5px}
     .meta span{padding:4px 10px;border:1px solid var(--line);border-radius:999px;background:#fff}
-    .section{margin-top:14px;border:1px solid var(--line);border-radius:14px;padding:14px 14px 10px}
+
+    .section{
+      margin-top:14px;
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:14px 14px 10px;
+      background:#fff;
+    }
     .section h2{margin:0 0 10px;font-size:14.5px}
+
     .kpis{display:grid;grid-template-columns:1fr;gap:10px}
     @media (min-width: 760px){ .kpis{grid-template-columns:1fr 1fr 1fr;} }
     .kpi{border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:#fff}
     .kpi .label{color:var(--muted);font-size:12px;margin-bottom:4px}
     .kpi .value{font-size:16px;font-weight:800}
     .kpi .sub{color:var(--muted);font-size:12px;margin-top:4px}
-    table{width:100%;border-collapse:collapse;margin-top:8px}
-    th,td{border-bottom:1px solid var(--line);padding:9px 8px;vertical-align:top}
-    th{font-size:12px;color:#374151;background:var(--soft);text-align:left}
-    td{font-size:12.5px}
+
+    /* tables: mobile-safe */
+    .table-wrap{
+      width:100%;
+      overflow-x:auto;
+      -webkit-overflow-scrolling:touch;
+      border-radius:12px;
+    }
+    table{
+      width:100%;
+      border-collapse:collapse;
+      margin-top:8px;
+      background:#fff;
+      min-width: 720px; /* prevents ugly squeeze on phone; enables horizontal scroll */
+    }
+    @media (max-width: 760px){
+      table{ min-width: 680px; }
+    }
+    th,td{
+      border-bottom:1px solid var(--line);
+      padding:9px 8px;
+      vertical-align:top;
+      font-size:12.5px;
+      white-space:normal;
+      word-break:break-word;
+      overflow-wrap:anywhere;
+    }
+    th{
+      font-size:12px;
+      color:#374151;
+      background:var(--soft);
+      text-align:left;
+    }
     .right{text-align:right;white-space:nowrap}
+
     .twoCol{display:grid;grid-template-columns:1fr;gap:12px}
     @media (min-width: 900px){ .twoCol{grid-template-columns:1fr 1fr;} }
-    @media print{ .wrap{margin:0;max-width:none} header,.section{break-inside:avoid} }
+
+    @media print{
+      .wrap{margin:0;max-width:none}
+      header,.section{break-inside:avoid}
+      table{min-width:auto}
+    }
   </style>
 </head>
+
 <body>
   <div class="wrap">
     <header>
@@ -70,126 +128,140 @@
         </div>
       </div>
 
-      <table>
-        <thead>
-          <tr>
-            <th style="width:34%;">合計項目</th>
-            <th style="width:26%;">金額（6 個月）</th>
-            <th>計算方式</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><b>總預算（6 個月）</b></td>
-            <td class="right"><b>6,366,800 – 7,214,000</b></td>
-            <td>人事成本（內外場＋計時）＋餐飲顧問費＋行銷預算（未稅）。</td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:34%;">合計項目</th>
+              <th style="width:26%;">金額（6 個月）</th>
+              <th>計算方式</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>總預算（6 個月）</b></td>
+              <td class="right"><b>6,366,800 – 7,214,000</b></td>
+              <td>人事成本（內外場＋計時）＋餐飲顧問費＋行銷預算（未稅）。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </section>
 
     <section class="section">
       <h2>二、人力編制與成本彙總（每月）</h2>
-      <table>
-        <thead>
-          <tr>
-            <th style="width:34%;">區塊</th>
-            <th style="width:18%;">編制</th>
-            <th style="width:22%;">每月成本（區間）</th>
-            <th>說明</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><b>內場（粵菜核心 7 職位）</b></td>
-            <td class="right">各 1 名</td>
-            <td class="right"><b>402,000 – 455,000</b></td>
-            <td>頭鑊、二鑊、燒味、大砧板、水台、湯水/燉品、冷盤/滷水。</td>
-          </tr>
-          <tr>
-            <td><b>外場（管理層＋正職）</b></td>
-            <td class="right">店長 1｜副店長 1｜儲幹 1｜正職 6</td>
-            <td class="right"><b>373,000 – 434,000</b></td>
-            <td>以包廂與宴席節奏可落地之基本配置估算。</td>
-          </tr>
-          <tr>
-            <td><b>外場計時人員</b></td>
-            <td class="right">2 名 × 120 小時／月</td>
-            <td class="right"><b>52,800 – 60,000</b></td>
-            <td>時薪 220–250；以每名每月 120 小時計算。</td>
-          </tr>
-          <tr>
-            <td><b>人事成本合計（每月）</b></td>
-            <td class="right">—</td>
-            <td class="right"><b>827,800 – 949,000</b></td>
-            <td>內場＋外場（管理層＋正職）＋計時人員。</td>
-          </tr>
-        </tbody>
-      </table>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:34%;">區塊</th>
+              <th style="width:18%;">編制</th>
+              <th style="width:22%;">每月成本（區間）</th>
+              <th>說明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>內場（粵菜核心 7 職位）</b></td>
+              <td class="right">各 1 名</td>
+              <td class="right"><b>402,000 – 455,000</b></td>
+              <td>頭鑊、二鑊、燒味、大砧板、水台、湯水/燉品、冷盤/滷水。</td>
+            </tr>
+            <tr>
+              <td><b>外場（管理層＋正職）</b></td>
+              <td class="right">店長 1｜副店長 1｜儲幹 1｜正職 6</td>
+              <td class="right"><b>373,000 – 434,000</b></td>
+              <td>以包廂與宴席節奏可落地之基本配置估算。</td>
+            </tr>
+            <tr>
+              <td><b>外場計時人員</b></td>
+              <td class="right">2 名 × 120 小時／月</td>
+              <td class="right"><b>52,800 – 60,000</b></td>
+              <td>時薪 220–250；以每名每月 120 小時計算。</td>
+            </tr>
+            <tr>
+              <td><b>人事成本合計（每月）</b></td>
+              <td class="right">—</td>
+              <td class="right"><b>827,800 – 949,000</b></td>
+              <td>內場＋外場（管理層＋正職）＋計時人員。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </section>
 
     <div class="twoCol">
       <section class="section">
         <h2>三、內場薪資帶（職位與月薪區間）</h2>
-        <table>
-          <thead>
-            <tr>
-              <th style="width:40%;">職位</th>
-              <th style="width:22%;">月薪（台中）</th>
-              <th>重點職責</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td>頭鑊（主爐）</td><td class="right"><b>82,000 – 92,000</b></td><td>宴席主菜與高單價熱炒；控火候與出菜節奏。</td></tr>
-            <tr><td>二鑊（副爐）</td><td class="right"><b>58,000 – 68,000</b></td><td>中段菜色主力；高峰期分流與補位。</td></tr>
-            <tr><td>燒味師傅</td><td class="right"><b>68,000 – 75,000</b></td><td>掛爐與斬料合併；燒鴨、燒肉、叉燒出餐。</td></tr>
-            <tr><td>大砧板（兼二砧）</td><td class="right"><b>55,000 – 62,000</b></td><td>高級食材前處理、醃製切配；必要時補位爐頭。</td></tr>
-            <tr><td>水台</td><td class="right"><b>42,000 – 46,000</b></td><td>洗切、去血水；活海鮮前處理。</td></tr>
-            <tr><td>湯水／燉品</td><td class="right"><b>52,000 – 60,000</b></td><td>老火湯、燉湯；宴席例湯製備。</td></tr>
-            <tr><td>冷盤／滷水</td><td class="right"><b>45,000 – 52,000</b></td><td>白切雞、滷水拼盤；包廂簡易前菜。</td></tr>
-          </tbody>
-        </table>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th style="width:40%;">職位</th>
+                <th style="width:22%;">月薪（台中）</th>
+                <th>重點職責</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>頭鑊（主爐）</td><td class="right"><b>82,000 – 92,000</b></td><td>宴席主菜與高單價熱炒；控火候與出菜節奏。</td></tr>
+              <tr><td>二鑊（副爐）</td><td class="right"><b>58,000 – 68,000</b></td><td>中段菜色主力；高峰期分流與補位。</td></tr>
+              <tr><td>燒味師傅</td><td class="right"><b>68,000 – 75,000</b></td><td>掛爐與斬料合併；燒鴨、燒肉、叉燒出餐。</td></tr>
+              <tr><td>大砧板（兼二砧）</td><td class="right"><b>55,000 – 62,000</b></td><td>高級食材前處理、醃製切配；必要時補位爐頭。</td></tr>
+              <tr><td>水台</td><td class="right"><b>42,000 – 46,000</b></td><td>洗切、去血水；活海鮮前處理。</td></tr>
+              <tr><td>湯水／燉品</td><td class="right"><b>52,000 – 60,000</b></td><td>老火湯、燉湯；宴席例湯製備。</td></tr>
+              <tr><td>冷盤／滷水</td><td class="right"><b>45,000 – 52,000</b></td><td>白切雞、滷水拼盤；包廂簡易前菜。</td></tr>
+            </tbody>
+          </table>
+        </div>
       </section>
 
       <section class="section">
         <h2>四、外場薪資帶（職位與薪資區間）</h2>
-        <table>
-          <thead>
-            <tr>
-              <th style="width:40%;">職位</th>
-              <th style="width:22%;">薪資範圍</th>
-              <th>重點職責</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td>店長</td><td class="right"><b>55,000 – 70,000</b></td><td>控場、排班、人力與客訴管理；宴席/包廂節奏、VIP 體驗。</td></tr>
-            <tr><td>副店長</td><td class="right"><b>48,000 – 60,000</b></td><td>帶班與現場調度；可代店長並承擔尖峰時段。</td></tr>
-            <tr><td>儲備幹部</td><td class="right"><b>42,000 – 46,000</b></td><td>可培養為領班或主管梯隊；具主動補位能力。</td></tr>
-            <tr><td>正職外場</td><td class="right"><b>38,000 – 43,000</b></td><td>帶位、上菜、桌邊服務；熟悉宴席流程與分菜者優先。</td></tr>
-            <tr><td>外場計時人員</td><td class="right"><b>時薪 220 – 250</b></td><td>常態 220–230；假日尖峰或宴席支援 240–250。</td></tr>
-          </tbody>
-        </table>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th style="width:40%;">職位</th>
+                <th style="width:22%;">薪資範圍</th>
+                <th>重點職責</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>店長</td><td class="right"><b>55,000 – 70,000</b></td><td>控場、排班、人力與客訴管理；宴席/包廂節奏、VIP 體驗。</td></tr>
+              <tr><td>副店長</td><td class="right"><b>48,000 – 60,000</b></td><td>帶班與現場調度；可代店長並承擔尖峰時段。</td></tr>
+              <tr><td>儲備幹部</td><td class="right"><b>42,000 – 46,000</b></td><td>可培養為領班或主管梯隊；具主動補位能力。</td></tr>
+              <tr><td>正職外場</td><td class="right"><b>38,000 – 43,000</b></td><td>帶位、上菜、桌邊服務；熟悉宴席流程與分菜者優先。</td></tr>
+              <tr><td>外場計時人員</td><td class="right"><b>時薪 220 – 250</b></td><td>常態 220–230；假日尖峰或宴席支援 240–250。</td></tr>
+            </tbody>
+          </table>
+        </div>
       </section>
     </div>
 
     <section class="section">
       <h2>五、行銷預算（6 個月）</h2>
-      <table>
-        <thead>
-          <tr>
-            <th style="width:34%;">項目</th>
-            <th style="width:22%;">金額</th>
-            <th>範圍摘要</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><b>行銷總預算</b></td>
-            <td class="right"><b>800,000</b></td>
-            <td>品牌基礎建設、一頁式形象官網、Google 商家與地標優化、官方帳號建立、開幕形象影片、Google 關鍵字廣告操作（媒體投放費另計）。</td>
-          </tr>
-        </tbody>
-      </table>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:34%;">項目</th>
+              <th style="width:22%;">金額</th>
+              <th>範圍摘要</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>行銷總預算</b></td>
+              <td class="right"><b>800,000</b></td>
+              <td>品牌基礎建設、一頁式形象官網、Google 商家與地標優化、官方帳號建立、開幕形象影片、Google 關鍵字廣告操作（媒體投放費另計）。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </section>
   </div>
 </body>
